@@ -31,6 +31,15 @@ export async function createAccount(app: FastifyInstance) {
         })
       }
 
+      const [, domain] = email.split('@')
+
+      const autoJoinOrganizations = await prisma.organization.findFirst({
+        where: {
+          domain,
+          shouldAttachUsersByDomain: true,
+        },
+      })
+
       const passwordHash = await hash(password, 6)
 
       await prisma.user.create({
@@ -38,6 +47,13 @@ export async function createAccount(app: FastifyInstance) {
           name,
           email,
           passwordHash,
+          member_on: autoJoinOrganizations
+            ? {
+                create: {
+                  organizationId: autoJoinOrganizations.id,
+                },
+              }
+            : undefined,
         },
       })
 
