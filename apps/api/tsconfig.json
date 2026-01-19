@@ -1,16 +1,10 @@
 {
-  "$schema": "https://www.schemastore.org/tsconfig",
-  "_version": "20.1.0",
+  "extends": "@saas/tsconfig/node.json",
+  "include": [
+    "src/**/*",
+    "@types/*.d.ts"
+  ],
   "compilerOptions": {
-    "lib": [
-      "es2023"
-    ],
-    "module": "nodenext",
-    "target": "es2022",
-    "strict": true,
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "moduleResolution": "node16",
     "ignoreDeprecations": "6.0",
     "baseUrl": ".",
     "paths": {
