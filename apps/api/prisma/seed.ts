@@ -1,12 +1,11 @@
 import { faker } from '@faker-js/faker'
 import { PrismaPg } from '@prisma/adapter-pg'
 import { PrismaClient } from '@prisma/client'
+import { env } from '@saas/env'
 import { hash } from 'bcryptjs'
 import { Pool } from 'pg'
 
-import 'dotenv/config'
-
-const pool = new Pool({ connectionString: process.env.DATABASE_URL })
+const pool = new Pool({ connectionString: env.DATABASE_URL })
 const adapter = new PrismaPg(pool)
 const prisma = new PrismaClient({ adapter })
 

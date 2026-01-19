@@ -1,5 +1,5 @@
 import { prisma } from '@/lib/prisma'
-import 'dotenv/config'
+import { env } from '@saas/env'
 import type { FastifyInstance } from 'fastify'
 import type { ZodTypeProvider } from 'fastify-type-provider-zod'
 import { z } from 'zod'
@@ -42,7 +42,7 @@ export async function requestPasswordRecover(app: FastifyInstance) {
 
       // send email with password recover link
 
-      if (process.env.LOCAL === 'DEV') {
+      if (env.LOCAL === 'DEV') {
         console.log('Password recover code:', code)
       }
     }

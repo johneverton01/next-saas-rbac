@@ -1,5 +1,5 @@
 import { prisma } from '@/lib/prisma'
-import 'dotenv/config'
+import { env } from '@saas/env'
 import type { FastifyInstance } from 'fastify'
 import type { ZodTypeProvider } from 'fastify-type-provider-zod'
 import { z } from 'zod'
@@ -25,19 +25,16 @@ export async function authenticateWithGithub(app: FastifyInstance) {
     async (request, reply) => {
       const { code } = request.body
 
-      const githubOAuthUrl = new URL(`${process.env.GITHUB_OAUTH_URL}`)
+      const githubOAuthUrl = new URL(`${env.GITHUB_OAUTH_URL}`)
 
-      githubOAuthUrl.searchParams.set(
-        'client_id',
-        process.env.GITHUB_CLIENT_ID!
-      )
+      githubOAuthUrl.searchParams.set('client_id', env.GITHUB_CLIENT_ID!)
       githubOAuthUrl.searchParams.set(
         'client_secret',
-        process.env.GITHUB_CLIENT_SECRET!
+        env.GITHUB_CLIENT_SECRET!
       )
       githubOAuthUrl.searchParams.set(
         'redirect_uri',
-        `${process.env.APP_URL}/api/auth/callback`
+        `${env.APP_URL}/api/auth/callback`
       )
 
       githubOAuthUrl.searchParams.set('code', code)
