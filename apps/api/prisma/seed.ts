@@ -4,7 +4,6 @@ import { PrismaClient } from '@prisma/client'
 import { hash } from 'bcryptjs'
 import { Pool } from 'pg'
 
-// Load environment variable
 import 'dotenv/config'
 
 const pool = new Pool({ connectionString: process.env.DATABASE_URL })
