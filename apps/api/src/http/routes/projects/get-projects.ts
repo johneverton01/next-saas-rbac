@@ -29,13 +29,13 @@ export function getProjects(app: FastifyInstance) {
                   description: z.string().nullable(),
                   slug: z.string(),
                   ownerId: z.uuid(),
-                  avatarUrl: z.string().nullable(),
+                  avatarUrl: z.url().nullable(),
                   organizationId: z.uuid(),
                   createdAt: z.date(),
                   owner: z.object({
                     id: z.uuid(),
                     name: z.string().nullable(),
-                    avatarUrl: z.string().nullable(),
+                    avatarUrl: z.url().nullable(),
                   }),
                 })
               ),
