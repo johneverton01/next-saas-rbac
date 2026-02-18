@@ -1,0 +1,105 @@
+import { authMiddleware } from '@/http/middlewares/auth'
+import { prisma } from '@/lib/prisma'
+import { getUserPermissions } from '@/utils/get-user-permissions'
+import { RolesSchema } from '@saas/auth'
+import type { FastifyInstance } from 'fastify'
+import type { ZodTypeProvider } from 'fastify-type-provider-zod'
+import { z } from 'zod'
+import { BadRequestError } from '../_errors/bad-request-error'
+import { UnauthorizedError } from '../_errors/unauthorized-error'
+
+export function createInvite(app: FastifyInstance) {
+  app
+    .withTypeProvider<ZodTypeProvider>()
+    .register(authMiddleware)
+    .post(
+      '/organizations/:slug/invites',
+      {
+        schema: {
+          tags: ['Invites'],
+          summary: 'Create a new invite',
+          security: [{ bearerAuth: [] }],
+          body: z.object({
+            email: z.email(),
+            role: RolesSchema,
+          }),
+          params: z.object({
+            slug: z.string(),
+          }),
+          response: {
+            201: z.object({
+              inviteId: z.uuid(),
+            }),
+          },
+        },
+      },
+      async (request, reply) => {
+        const { slug } = request.params
+        const { email, role } = request.body
+
+        const userId = await request.getCurrentUserUserId()
+        const { organization, membership } =
+          await request.getUserMemberships(slug)
+
+        const { cannot } = getUserPermissions(userId, membership.role)
+
+        if (cannot('create', 'Invite')) {
+          throw new UnauthorizedError(
+            `You're not allowed to create new invites.`
+          )
+        }
+
+        const [, domain] = email
+
+        if (
+          organization.shouldAllowEmailDomain &&
+          organization.domain === domain
+        ) {
+          throw new BadRequestError(
+            `User with "${domain}" domain will join your organization automatically on login.`
+          )
+        }
+
+        const inviteWithSameEmail = await prisma.invite.findUnique({
+          where: {
+            email_organizationId: {
+              email,
+              organizationId: organization.id,
+            },
+          },
+        })
+
+        if (inviteWithSameEmail) {
+          throw new BadRequestError(
+            'Another invite with same e-mail already exists'
+          )
+        }
+
+        const memberWithSameEmail = await prisma.member.findFirst({
+          where: {
+            organizationId: organization.id,
+            user: {
+              email,
+            },
+          },
+        })
+
+        if (memberWithSameEmail) {
+          throw new BadRequestError(
+            'A member with this e-mail already belongs to your organization.'
+          )
+        }
+
+        const inviteID = await prisma.invite.create({
+          data: {
+            organizationId: organization.id,
+            email,
+            role,
+            authorId: userId,
+          },
+        })
+
+        return reply.status(201).send({ inviteId: inviteID.id })
+      }
+    )
+}
