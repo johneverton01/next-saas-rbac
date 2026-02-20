@@ -1,8 +1,8 @@
-import { z } from 'zod';
+import { z } from 'zod'
 
 export const billingSubjectSchema = z.tuple([
-  z.enum(['manage', 'create', 'export']),
-  z.literal('Billing')
-]);
+  z.enum(['manage', 'get', 'export']),
+  z.literal('Billing'),
+])
 
-export type BillingSubject = z.infer<typeof billingSubjectSchema>;
+export type BillingSubject = z.infer<typeof billingSubjectSchema>

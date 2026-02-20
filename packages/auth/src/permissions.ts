@@ -1,7 +1,7 @@
-import type { AbilityBuilder } from "@casl/ability"
-import type { AppAbility } from "."
-import type { User } from "./models/user"
-import type { Role } from "./roles"
+import type { AbilityBuilder } from '@casl/ability'
+import type { AppAbility } from '.'
+import type { User } from './models/user'
+import type { Role } from './roles'
 
 type PermissionsByRole = (
   user: User,
@@ -12,9 +12,9 @@ export const permissions: Record<Role, PermissionsByRole> = {
     can('manage', 'all')
 
     cannot(['transfer_ownership', 'update'], 'Organization')
-    can(['transfer_ownership', 'update'], 'Organization', { ownerId: { $eq: user.id } })
-
-
+    can(['transfer_ownership', 'update'], 'Organization', {
+      ownerId: { $eq: user.id },
+    })
   },
   MEMBER(user, { can }) {
     can('get', 'User')
@@ -23,5 +23,5 @@ export const permissions: Record<Role, PermissionsByRole> = {
   },
   BILLING(_, { can }) {
     can('manage', 'Billing')
-  }
+  },
 }
