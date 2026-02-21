@@ -1,24 +1,43 @@
 'use client'
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Separator } from '@/components/ui/separator'
-import { Loader2 } from 'lucide-react'
+import { AlertTriangle, Loader2 } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useActionState } from 'react'
 import { signInWithEmailAndPassword } from './actions'
 
 export function SignInForm() {
-  const [state, formAction, isPending] = useActionState(
+  const [{ success, message, errors }, formAction, isPending] = useActionState(
     signInWithEmailAndPassword,
-    null
+    {
+      success: false,
+      message: undefined,
+      errors: undefined,
+    }
   )
   return (
     <form action={formAction} className="space-y-4">
+      {success === false && message && (
+        <Alert variant="destructive">
+          <AlertTriangle className="size-4" />
+          <AlertTitle>Sign in failed!</AlertTitle>
+          <AlertDescription>
+            <p>{message}</p>
+          </AlertDescription>
+        </Alert>
+      )}
       <div className="space-y-1">
         <Label htmlFor="email">Email</Label>
         <Input id="email" name="email" type="email" placeholder="E-mail" />
+        {errors?.email && (
+          <p className="text-destructive text-xs font-medium">
+            {errors.email[0]}
+          </p>
+        )}
       </div>
       <div className="space-y-1">
         <Label htmlFor="password">Password</Label>
@@ -28,6 +47,11 @@ export function SignInForm() {
           type="password"
           placeholder="Password"
         />
+        {errors?.password && (
+          <p className="text-destructive text-xs font-medium">
+            {errors.password[0]}
+          </p>
+        )}
         <Link
           href="/auth/forgot-password"
           className="text-foreground text-xs font-medium transition-colors hover:underline"
