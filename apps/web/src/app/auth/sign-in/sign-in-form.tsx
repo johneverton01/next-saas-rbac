@@ -7,20 +7,36 @@ import { Separator } from '@/components/ui/separator'
 import { AlertTriangle, Loader2 } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useActionState } from 'react'
+import { useState, useTransition, type FormEvent } from 'react'
 import { signInWithEmailAndPassword } from './actions'
 
 export function SignInForm() {
-  const [{ success, message, errors }, formAction, isPending] = useActionState(
-    signInWithEmailAndPassword,
-    {
-      success: false,
-      message: undefined,
-      errors: undefined,
-    }
-  )
+  const [isPending, startTransition] = useTransition()
+  const [{ success, message, errors }, setFormState] = useState<{
+    success: boolean
+    message?: string
+    errors?: Record<string, string[]>
+  }>({
+    success: false,
+    message: undefined,
+    errors: undefined,
+  })
+
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault()
+
+    const form = event.currentTarget
+
+    const data = new FormData(form)
+
+    startTransition(async () => {
+      const state = await signInWithEmailAndPassword(data)
+      setFormState(state)
+    })
+  }
+
   return (
-    <form action={formAction} className="space-y-4">
+    <form onSubmit={handleSubmit} className="space-y-4">
       {success === false && message && (
         <Alert variant="destructive">
           <AlertTriangle className="size-4" />
