@@ -4,36 +4,16 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Separator } from '@/components/ui/separator'
+import { useFormState } from '@/hooks/use-form-state'
 import { AlertTriangle, Loader2 } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useState, useTransition, type FormEvent } from 'react'
 import { signInWithEmailAndPassword } from './actions'
 
 export function SignInForm() {
-  const [isPending, startTransition] = useTransition()
-  const [{ success, message, errors }, setFormState] = useState<{
-    success: boolean
-    message?: string
-    errors?: Record<string, string[]>
-  }>({
-    success: false,
-    message: undefined,
-    errors: undefined,
-  })
-
-  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault()
-
-    const form = event.currentTarget
-
-    const data = new FormData(form)
-
-    startTransition(async () => {
-      const state = await signInWithEmailAndPassword(data)
-      setFormState(state)
-    })
-  }
+  const [{ success, message, errors }, handleSubmit, isPending] = useFormState(
+    signInWithEmailAndPassword
+  )
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
