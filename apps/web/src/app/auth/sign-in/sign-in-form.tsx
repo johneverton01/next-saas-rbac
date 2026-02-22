@@ -6,10 +6,9 @@ import { Label } from '@/components/ui/label'
 import { Separator } from '@/components/ui/separator'
 import { useFormState } from '@/hooks/use-form-state'
 import { AlertTriangle, Loader2 } from 'lucide-react'
-import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { signInWithGithub } from '../actions'
+import { LoginWithGithub } from '../components/login-with-github'
 import { signInWithEmailAndPassword } from './actions'
 
 export function SignInForm() {
@@ -77,18 +76,7 @@ export function SignInForm() {
 
       <Separator />
 
-      <form action={signInWithGithub}>
-        <Button type="submit" className="w-full" variant="outline">
-          <Image
-            src="/assets/github-icon.svg"
-            alt=""
-            className="mr-2 size-4 dark:invert"
-            width={16}
-            height={16}
-          />
-          Sign in with GitHub
-        </Button>
-      </form>
+      <LoginWithGithub text="Sign in with GitHub" />
     </div>
   )
 }
