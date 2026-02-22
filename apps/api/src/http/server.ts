@@ -76,7 +76,10 @@ app.register(fastifyJwt, {
   secret: env.JWT_SECRET_KEY!,
 })
 
-app.register(fastifyCors)
+app.register(fastifyCors, {
+  origin: '*',
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+})
 
 app.register(createAccount)
 app.register(authenticateWithPassword)

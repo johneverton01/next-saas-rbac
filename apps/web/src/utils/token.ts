@@ -8,3 +8,13 @@ export async function setToken(token: string) {
     path: '/',
   })
 }
+
+export async function deleteToken() {
+  const cookiesStore = await cookies()
+  cookiesStore.delete('token')
+}
+
+export async function getToken() {
+  const cookiesStore = await cookies()
+  return cookiesStore.get('token')?.value
+}

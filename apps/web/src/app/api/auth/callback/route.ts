@@ -1,5 +1,5 @@
 import { signInWithGithub } from '@/http/sign-in-with-github'
-import { setToken } from '@/utils/set-token'
+import { setToken } from '@/utils/token'
 import { NextResponse, type NextRequest } from 'next/server'
 
 export async function GET(request: NextRequest) {

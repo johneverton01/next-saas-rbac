@@ -1,7 +1,7 @@
 'use server'
 
 import { signInWithEmailPassword } from '@/http/sign-in-with-password'
-import { setToken } from '@/utils/set-token'
+import { setToken } from '@/utils/token'
 import { HTTPError } from 'ky'
 import { z } from 'zod'
 
