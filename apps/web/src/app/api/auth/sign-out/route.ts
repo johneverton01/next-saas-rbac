@@ -6,7 +6,7 @@ export async function GET(request: NextRequest) {
 
   redirectUrl.pathname = '/auth/sign-in'
 
-  deleteToken()
+  await deleteToken()
 
   return NextResponse.redirect(redirectUrl)
 }
