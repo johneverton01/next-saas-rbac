@@ -15,7 +15,11 @@ export async function createAccount(app: FastifyInstance) {
         body: z.object({
           name: z.string(),
           email: z.email(),
-          password: z.string().min(8),
+          password: z
+            .string()
+            .min(8, {
+              message: 'Password should be at least 8 characters long',
+            }),
         }),
       },
     },
