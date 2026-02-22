@@ -1,11 +1,9 @@
 'use server'
 
 import { signInWithEmailPassword } from '@/http/sign-in-with-password'
+import { setToken } from '@/utils/set-token'
 import { HTTPError } from 'ky'
-import { cookies } from 'next/headers'
 import { z } from 'zod'
-
-const COOKIES_EXPIRE_7_DAYS = 60 * 60 * 24 * 7
 
 const signInSchema = z.object({
   email: z
@@ -35,11 +33,7 @@ export async function signInWithEmailAndPassword(data: FormData) {
       password,
     })
 
-    const cookiesStore = await cookies()
-    cookiesStore.set('token', token, {
-      path: '/',
-      maxAge: COOKIES_EXPIRE_7_DAYS,
-    })
+    await setToken(token)
   } catch (error) {
     if (error instanceof HTTPError) {
       const { message } = await error.response.json()

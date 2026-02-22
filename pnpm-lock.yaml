@@ -96,6 +96,9 @@ importers:
 
   apps/web:
     dependencies:
+      '@saas/env':
+        specifier: workspace:*
+        version: link:../../packages/env
       class-variance-authority:
         specifier: ^0.7.1
         version: 0.7.1
@@ -154,6 +157,9 @@ importers:
       babel-plugin-react-compiler:
         specifier: 1.0.0
         version: 1.0.0
+      dotenv-cli:
+        specifier: ^11.0.0
+        version: 11.0.0
       shadcn:
         specifier: ^3.8.5
         version: 3.8.5(@types/node@20.19.33)(typescript@5.9.3)
