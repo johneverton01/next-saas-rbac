@@ -11,6 +11,7 @@
     "env:load": "dotenv -e ../../.env --"
   },
   "dependencies": {
+    "@saas/auth": "workspace:*",
     "@saas/env": "workspace:*",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
@@ -18,11 +19,11 @@
     "ky": "^1.14.3",
     "lucide-react": "^0.575.0",
     "next": "16.1.6",
+    "next-themes": "^0.4.6",
     "radix-ui": "^1.4.3",
     "react": "19.2.3",
     "react-dom": "19.2.3",
     "tailwind-merge": "^3.5.0",
-    "@saas/auth": "workspace:*",
     "zod": "^4.3.5"
   },
   "devDependencies": {
