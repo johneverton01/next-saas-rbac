@@ -15,6 +15,7 @@ export const env = createEnv({
   shared: {
     LOCAL: z.enum(['DEV', 'PROD']),
     APP_URL: z.url(),
+    NEXT_PUBLIC_API_URL: z.url(),
   },
   runtimeEnv: {
     LOCAL: process.env.LOCAL,
@@ -25,6 +26,7 @@ export const env = createEnv({
     GITHUB_CLIENT_SECRET: process.env.GITHUB_CLIENT_SECRET,
     GITHUB_OAUTH_URL: process.env.GITHUB_OAUTH_URL,
     APP_URL: process.env.APP_URL,
+    NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL,
   },
   emptyStringAsUndefined: true,
 })
