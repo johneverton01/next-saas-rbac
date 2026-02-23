@@ -1,9 +1,9 @@
-import { z } from 'zod';
-import { RolesSchema } from '../roles.js';
+import { z } from 'zod'
+import { RolesSchema } from '../roles'
 
 export const userSchema = z.object({
   id: z.string(),
-  role: RolesSchema
+  role: RolesSchema,
 })
 
-export type User = z.infer<typeof userSchema>;
+export type User = z.infer<typeof userSchema>

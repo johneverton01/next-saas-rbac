@@ -96,6 +96,9 @@ importers:
 
   apps/web:
     dependencies:
+      '@saas/auth':
+        specifier: workspace:*
+        version: link:../../packages/auth
       '@saas/env':
         specifier: workspace:*
         version: link:../../packages/env

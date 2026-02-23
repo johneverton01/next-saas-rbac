@@ -22,6 +22,7 @@
     "react": "19.2.3",
     "react-dom": "19.2.3",
     "tailwind-merge": "^3.5.0",
+    "@saas/auth": "workspace:*",
     "zod": "^4.3.5"
   },
   "devDependencies": {
