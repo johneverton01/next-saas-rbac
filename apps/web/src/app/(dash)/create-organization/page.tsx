@@ -1,11 +1,11 @@
-import { CreateOrganizationForm } from './create-organization-form'
+import { OrganizationForm } from './organization-form'
 
 export default function CreateOrganizationPage() {
   return (
     <div className="space-y-4">
       <h1 className="text-2xl font-bold">Create organization</h1>
       <div className="mx-auto max-w-100">
-        <CreateOrganizationForm />
+        <OrganizationForm />
       </div>
     </div>
   )

@@ -1,27 +1,29 @@
 'use client'
+import { AlertForm } from '@/components/AlertForm'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { useFormState } from '@/hooks/use-form-state'
+import { Loader2 } from 'lucide-react'
+import { createOrganizationAction } from './actions'
 
-export function CreateOrganizationForm() {
-  // const [{ success, message, errors }, handleSubmit, isPending] = useFormState(
-  //   _,
-  //   () => {
-  //     // router.push('/auth/sign-in')
-  //   }
-  // )
+export function OrganizationForm() {
+  const [{ success, message, errors }, handleSubmit, isPending] = useFormState(
+    createOrganizationAction
+  )
   return (
-    <form className="space-y-4">
-      {/* {success === false && message && (
-        <Alert variant="destructive">
-          <AlertTriangle className="size-4" />
-          <AlertTitle>Create organization failed!</AlertTitle>
-          <AlertDescription>
-            <p>{message}</p>
-          </AlertDescription>
-        </Alert>
-      )} */}
+    <form onSubmit={handleSubmit} className="space-y-4">
+      {success === false && message && (
+        <AlertForm
+          title="Create organization failed!"
+          message={message}
+          variant="destructive"
+        />
+      )}
+      {success === true && message && (
+        <AlertForm title="Success!" message={message} variant="success" />
+      )}
       <div className="space-y-1">
         <Label htmlFor="name">Organization Name</Label>
         <Input
@@ -30,26 +32,26 @@ export function CreateOrganizationForm() {
           type="text"
           placeholder="Organization Name"
         />
-        {/* {errors?.name && (
+        {errors?.name && (
           <p className="text-destructive text-xs font-medium">
             {errors.name[0]}
           </p>
-        )} */}
+        )}
       </div>
       <div className="space-y-1">
-        <Label htmlFor="email">E-mail domain</Label>
+        <Label htmlFor="domain">E-mail domain</Label>
         <Input
-          id="email"
-          name="email"
+          id="domain"
+          name="domain"
           type="text"
           placeholder="example.com"
           inputMode="url"
         />
-        {/* {errors?.email && (
+        {errors?.domain && (
           <p className="text-destructive text-xs font-medium">
-            {errors.email[0]}
+            {errors.domain[0]}
           </p>
-        )} */}
+        )}
       </div>
       <div className="space-y-1">
         <div className="flex items-baseline space-x-2">
@@ -62,26 +64,25 @@ export function CreateOrganizationForm() {
             <span className="text-sm leading-none font-medium">
               Auto-join new members
             </span>
-            <p>
+            <p className="text-muted-foreground text-sm">
               This will automatically add all members with the same e-mail
               domain to this organization
             </p>
           </label>
         </div>
-        {/* {errors?.password && (
+        {errors?.shouldAttachUsersByDomain && (
           <p className="text-destructive text-xs font-medium">
-            {errors.password[0]}
+            {errors.shouldAttachUsersByDomain[0]}
           </p>
-        )} */}
+        )}
       </div>
 
-      <Button type="submit" className="w-full">
-        {/* {isPending ? (
+      <Button type="submit" className="w-full" disabled={isPending}>
+        {isPending ? (
           <Loader2 className="size-4 animate-spin" />
         ) : (
           'Save organization'
-        )} */}
-        Save organization
+        )}
       </Button>
     </form>
   )

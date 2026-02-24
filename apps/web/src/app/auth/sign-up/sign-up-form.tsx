@@ -1,10 +1,10 @@
 'use client'
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
+import { AlertForm } from '@/components/AlertForm'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { useFormState } from '@/hooks/use-form-state'
-import { AlertTriangle, Loader2 } from 'lucide-react'
+import { Loader2 } from 'lucide-react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { signUpAction } from './actions'
@@ -20,13 +20,11 @@ export function SignUpForm() {
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       {success === false && message && (
-        <Alert variant="destructive">
-          <AlertTriangle className="size-4" />
-          <AlertTitle>Sign in failed!</AlertTitle>
-          <AlertDescription>
-            <p>{message}</p>
-          </AlertDescription>
-        </Alert>
+        <AlertForm
+          title="Sign up failed!"
+          message={message}
+          variant="destructive"
+        />
       )}
       <div className="space-y-1">
         <Label htmlFor="name">Nome</Label>
