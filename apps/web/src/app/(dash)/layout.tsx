@@ -5,8 +5,10 @@ import { redirect } from 'next/navigation'
 
 export default async function DashLayout({
   children,
+  sheet,
 }: Readonly<{
   children: React.ReactNode
+  sheet: React.ReactNode
 }>) {
   if (!(await isAuthenticated())) {
     redirect('/auth/sign-in')
@@ -15,7 +17,10 @@ export default async function DashLayout({
     <div className="space-y-4 py-4">
       <Header />
       <Separator className="my-4" />
-      <main className="mx-auto w-full max-w-300">{children}</main>
+      <main className="mx-auto w-full max-w-300 space-y-4">
+        {children}
+        {sheet}
+      </main>
     </div>
   )
 }
