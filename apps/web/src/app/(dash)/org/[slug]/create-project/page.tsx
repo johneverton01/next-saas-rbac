@@ -1,15 +1,15 @@
 import { Header } from '@/components/header'
 import { Separator } from '@/components/ui/separator'
-import { OrganizationForm } from './organization-form'
+import { ProjectForm } from './project-form'
 
-export default function CreateOrganizationPage() {
+export default function CreateProjectPage() {
   return (
     <div className="space-y-4 py-4">
       <Header />
       <Separator className="my-4" />
       <main className="mx-auto w-full max-w-300 space-y-4">
-        <h1 className="text-2xl font-bold">Create organization</h1>
-        <OrganizationForm />
+        <h1 className="text-2xl font-bold">Create project</h1>
+        <ProjectForm />
       </main>
     </div>
   )
