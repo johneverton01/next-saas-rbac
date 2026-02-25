@@ -10,10 +10,10 @@ export const env = createEnv({
     GITHUB_CLIENT_ID: z.string(),
     GITHUB_CLIENT_SECRET: z.string(),
     GITHUB_OAUTH_URL: z.url(),
+    LOCAL: z.enum(['DEV', 'PROD']),
   },
   client: {},
   shared: {
-    LOCAL: z.enum(['DEV', 'PROD']),
     APP_URL: z.url(),
     NEXT_PUBLIC_API_URL: z.url(),
   },

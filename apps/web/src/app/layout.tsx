@@ -1,5 +1,5 @@
+import { Providers } from '@/providers'
 import type { Metadata } from 'next'
-import { ThemeProvider } from 'next-themes'
 import './globals.css'
 
 export const metadata: Metadata = {
@@ -14,13 +14,7 @@ export default function RootLayout({
   return (
     <html lang="pt-BR" suppressHydrationWarning>
       <body className="antialiased">
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="dark"
-          disableTransitionOnChange
-        >
-          {children}
-        </ThemeProvider>
+        <Providers>{children}</Providers>
       </body>
     </html>
   )

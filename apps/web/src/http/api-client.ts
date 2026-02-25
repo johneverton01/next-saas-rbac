@@ -1,9 +1,8 @@
-import { env } from '@saas/env'
 import { getCookie, type CookieValueTypes } from 'cookies-next'
 import ky from 'ky'
 
 export const api = ky.create({
-  prefixUrl: env.NEXT_PUBLIC_API_URL,
+  prefixUrl: process.env.NEXT_PUBLIC_API_URL,
   hooks: {
     beforeRequest: [attachAuthToken],
   },
