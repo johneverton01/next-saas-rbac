@@ -33,7 +33,7 @@ export function OrganizationSwitcherContent({
             return (
               <DropdownMenuItem key={organization.id} asChild>
                 <Link href={`/org/${organization.slug}`}>
-                  <Avatar className="mr-2 size-4">
+                  <Avatar className="size-4">
                     {organization.avatarUrl && (
                       <AvatarImage src={organization.avatarUrl} />
                     )}
@@ -48,7 +48,7 @@ export function OrganizationSwitcherContent({
       <DropdownMenuSeparator />
       <DropdownMenuItem asChild>
         <Link href="/create-organization">
-          <PlusCircle className="mr-2 size-4" />
+          <PlusCircle className="size-4" />
           Create new
         </Link>
       </DropdownMenuItem>

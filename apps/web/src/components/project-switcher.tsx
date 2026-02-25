@@ -1,46 +1,61 @@
 'use client'
 
 import { getProjects } from '@/http/get-projects'
-import { ChevronsUpDown } from 'lucide-react'
-import { useParams } from 'next/navigation'
-// import { ProjectSwitcherContent } from './project-switcher-content'
 import { useQuery } from '@tanstack/react-query'
+import { ChevronsUpDown, Loader2 } from 'lucide-react'
+import { useParams } from 'next/navigation'
+import { ProjectSwitcherContent } from './project-switcher-content'
+import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from './ui/dropdown-menu'
+import { Skeleton } from './ui/skeleton'
 
 export function ProjectSwitcher() {
-  const { slug: orgSlug } = useParams<{ slug: string }>()
+  const { slug: orgSlug, project: projectSlug } = useParams<{
+    slug: string
+    project: string
+  }>()
 
-  const { data, isPending } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: [orgSlug, 'projects'],
     queryFn: () => getProjects(orgSlug),
     enabled: !!orgSlug,
   })
 
-  console.log('projects', data)
+  const currentProject =
+    data && projectSlug
+      ? data?.projects.find((project) => project.slug === projectSlug)
+      : undefined
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger className="focus-visible:ring-primary flex w-42 items-center gap-2 rounded p-1 text-sm font-medium outline-none focus-visible:ring-2">
-        {/* {currentOrganization ? (
+        {isLoading ? (
           <>
-            <Avatar className="mr-2 size-4">
-              {currentOrganization.avatarUrl && (
-                <AvatarImage src={currentOrganization.avatarUrl} />
+            <Skeleton className="size-4 shrink-0 rounded-full" />
+            <Skeleton className="h-4 w-full" />
+          </>
+        ) : currentProject ? (
+          <>
+            <Avatar className="size-4">
+              {currentProject.avatarUrl && (
+                <AvatarImage src={currentProject.avatarUrl} />
               )}
               <AvatarFallback />
             </Avatar>
-            <span className="truncate text-left">
-              {currentOrganization.name}
-            </span>
+            <span className="truncate text-left">{currentProject.name}</span>
           </>
-        ) : ( */}
-        <span className="text-muted-foreground">Select project</span>
-        {/* )} */}
-        <ChevronsUpDown className="text-muted-foreground ml-auto size-4" />
+        ) : (
+          <span className="text-muted-foreground">Select project</span>
+        )}
+        {isLoading ? (
+          <Loader2 className="text-muted-foreground ml-auto size-4 shrink-0 animate-spin" />
+        ) : (
+          <ChevronsUpDown className="text-muted-foreground ml-auto size-4 shrink-0" />
+        )}
       </DropdownMenuTrigger>
       <DropdownMenuContent
         align="end"
@@ -48,7 +63,7 @@ export function ProjectSwitcher() {
         sideOffset={12}
         className="w-50"
       >
-        {/* <ProjectSwitcherContent /> */}
+        <ProjectSwitcherContent orgSlug={orgSlug} projects={data?.projects} />
       </DropdownMenuContent>
     </DropdownMenu>
   )

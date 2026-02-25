@@ -27,10 +27,12 @@ interface Project {
 }
 
 interface ProjectSwitcherContentProps {
+  orgSlug: string
   projects?: Project[]
 }
 
 export function ProjectSwitcherContent({
+  orgSlug,
   projects,
 }: ProjectSwitcherContentProps) {
   return (
@@ -41,8 +43,8 @@ export function ProjectSwitcherContent({
           projects.map((project) => {
             return (
               <DropdownMenuItem key={project.id} asChild>
-                <Link href={`/org/${project.slug}`}>
-                  <Avatar className="mr-2 size-4">
+                <Link href={`/org/${orgSlug}/project/${project.slug}`}>
+                  <Avatar className="size-4">
                     {project.avatarUrl && (
                       <AvatarImage src={project.avatarUrl} />
                     )}
@@ -56,8 +58,8 @@ export function ProjectSwitcherContent({
       </DropdownMenuGroup>
       <DropdownMenuSeparator />
       <DropdownMenuItem asChild>
-        <Link href="/create-organization">
-          <PlusCircle className="mr-2 size-4" />
+        <Link href={`/org/${orgSlug}/create-project`}>
+          <PlusCircle className="size-4" />
           Create new
         </Link>
       </DropdownMenuItem>
