@@ -1,5 +1,5 @@
 'use client'
-import { AlertForm } from '@/components/AlertForm'
+import { AlertForm } from '@/components/alert-form'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Input } from '@/components/ui/input'
