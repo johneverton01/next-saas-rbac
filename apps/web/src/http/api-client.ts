@@ -13,18 +13,20 @@ async function attachAuthToken(request: Request) {
     const { cookies } = await import('next/headers')
     const cookiesStore = await cookies()
     const token = cookiesStore.get('token')?.value
-
     if (token) {
-      setTokenInHeaders(request, String(token))
-    } else {
-      const token = getCookie('token')
-      if (token) {
-        setTokenInHeaders(request, String(token))
-      }
+      setAuthTokenInHeaders(request, token)
+    }
+  } else {
+    const token = await getCookie('token')
+    if (token) {
+      setAuthTokenInHeaders(request, token)
     }
   }
 }
 
-function setTokenInHeaders(request: Request, token: string | CookieValueTypes) {
+function setAuthTokenInHeaders(
+  request: Request,
+  token: string | CookieValueTypes
+) {
   request.headers.set('Authorization', `Bearer ${token}`)
 }
