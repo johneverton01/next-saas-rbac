@@ -1,14 +1,10 @@
-import { Header } from '@/components/header'
-import { Separator } from '@/components/ui/separator'
+import { HeaderOrg } from '../components/header-org'
 
 export default function ProjectsPage() {
   return (
-    <div className="space-y-4 py-4">
-      <Header />
-      <Separator className="my-4" />
-      <main className="mx-auto w-full max-w-300 space-y-4">
-        <p className="text-muted-foreground text-sm">My organization</p>
-      </main>
+    <div className="space-y-4">
+      <HeaderOrg />
+      <h1 className="text-2xl font-bold">Projects</h1>
     </div>
   )
 }
