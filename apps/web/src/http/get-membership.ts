@@ -1,3 +1,4 @@
+import { auth } from '@/auth/auth'
 import { Role } from '@saas/auth'
 import { api } from './api-client'
 
@@ -11,6 +12,10 @@ interface GetMembershipResponse {
 }
 
 export async function getMembership(org: string) {
+  const isAuthenticated = await auth()
+  if (!isAuthenticated) {
+    return null
+  }
   const result = await api
     .get(`organization/${org}/membership`)
     .json<GetMembershipResponse>()

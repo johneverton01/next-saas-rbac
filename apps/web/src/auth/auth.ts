@@ -24,9 +24,13 @@ export async function getCurrentMemberShip() {
     return null
   }
 
-  const { membership } = await getMembership(currentOrg)
+  const data = await getMembership(currentOrg)
 
-  return membership
+  if (!data?.membership) {
+    return null
+  }
+
+  return data.membership
 }
 
 export async function ability() {

@@ -4,7 +4,7 @@ import { Separator } from '@/components/ui/separator'
 
 export function HeaderOrg() {
   return (
-    <div className="space-y-4 pt-6">
+    <div className="w-full space-y-4 pt-6">
       <Header />
       <Separator />
       <Tabs />

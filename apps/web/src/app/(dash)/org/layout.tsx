@@ -3,5 +3,5 @@ export default function OrgLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
-  return <div className="mx-auto w-full max-w-300 py-4">{children}</div>
+  return <div className="mx-auto py-4">{children}</div>
 }
