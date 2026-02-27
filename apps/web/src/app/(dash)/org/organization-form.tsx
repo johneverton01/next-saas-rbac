@@ -6,12 +6,27 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { useFormState } from '@/hooks/use-form-state'
 import { Loader2 } from 'lucide-react'
-import { createOrganizationAction } from './actions'
+import {
+  createOrganizationAction,
+  updateOrganizationAction,
+  type OrganizationSchema,
+} from './actions'
 
-export function OrganizationForm() {
-  const [{ success, message, errors }, handleSubmit, isPending] = useFormState(
-    createOrganizationAction
-  )
+interface OrganizationFormProps {
+  isUpdating?: boolean
+  initialData?: OrganizationSchema
+}
+
+export function OrganizationForm({
+  isUpdating = false,
+  initialData,
+}: OrganizationFormProps) {
+  const formAction = isUpdating
+    ? updateOrganizationAction
+    : createOrganizationAction
+
+  const [{ success, message, errors }, handleSubmit, isPending] =
+    useFormState(formAction)
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       {success === false && message && (
@@ -30,6 +45,7 @@ export function OrganizationForm() {
           id="name"
           name="name"
           type="text"
+          defaultValue={initialData?.name}
           placeholder="Organization Name"
         />
         {errors?.name && (
@@ -45,6 +61,7 @@ export function OrganizationForm() {
           name="domain"
           type="text"
           placeholder="example.com"
+          defaultValue={initialData?.domain ?? undefined}
           inputMode="url"
         />
         {errors?.domain && (
@@ -59,6 +76,7 @@ export function OrganizationForm() {
             name="shouldAttachUsersByDomain"
             id="shouldAttachUsersByDomain"
             className="translate-y-0.5"
+            defaultChecked={initialData?.shouldAttachUsersByDomain}
           />
           <label htmlFor="shouldAttachUsersByDomain" className="space-y-1">
             <span className="text-sm leading-none font-medium">
