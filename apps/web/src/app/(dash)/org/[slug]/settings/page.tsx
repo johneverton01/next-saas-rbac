@@ -9,6 +9,7 @@ import {
 import { getOrganization } from '@/http/get-organization'
 import { HeaderOrg } from '../../components/header-org'
 import { OrganizationForm } from '../../organization-form'
+import { Billing } from './billing'
 import { ShutdownOrganizationButton } from './shutdown-organization-button'
 
 export default async function SettingsPage() {
@@ -41,7 +42,7 @@ export default async function SettingsPage() {
               </CardContent>
             </Card>
           )}
-          {canGetBilling && <div>Billing information</div>}
+          {canGetBilling && <Billing />}
           {canShutdownOrganization && (
             <Card>
               <CardHeader>
