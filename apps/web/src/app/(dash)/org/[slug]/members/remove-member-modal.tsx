@@ -16,13 +16,17 @@ import { removeMemberAction } from './actions'
 
 interface RemoveMemberModalProps {
   memberId: string
+  disabled?: boolean
 }
 
-export function RemoveMemberModal({ memberId }: RemoveMemberModalProps) {
+export function RemoveMemberModal({
+  memberId,
+  disabled,
+}: RemoveMemberModalProps) {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="destructive">
+        <Button variant="destructive" disabled={disabled}>
           <UserMinus className="mr-2 size-4" />
           Remove
         </Button>

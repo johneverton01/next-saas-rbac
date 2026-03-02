@@ -9,6 +9,7 @@ import { organizationSchema, type Role } from '@saas/auth'
 import { ArrowLeftRight, Crown } from 'lucide-react'
 import Image from 'next/image'
 import { RemoveMemberModal } from './remove-member-modal'
+import { UpdateMemberRoleSelect } from './update-member-role-select'
 
 interface Member {
   userId: string
@@ -39,6 +40,14 @@ export async function MembersList() {
     return (
       member.userId === membership?.userId ||
       member.userId === organization.ownerId
+    )
+  }
+
+  const isDisableRoleSelect = (member: Member) => {
+    return (
+      member.userId === membership?.userId ||
+      member.userId === organization.ownerId ||
+      permissions?.cannot('update', 'User')
     )
   }
 
@@ -98,8 +107,17 @@ export async function MembersList() {
                         </Button>
                       )}
 
+                      <UpdateMemberRoleSelect
+                        memberId={member.id}
+                        value={member.role}
+                        disabled={isDisableRoleSelect(member)}
+                      />
+
                       {permissions?.can('delete', 'User') && (
-                        <RemoveMemberModal memberId={member.id} />
+                        <RemoveMemberModal
+                          memberId={member.id}
+                          disabled={isDisableRemoveButton(member)}
+                        />
                       )}
                     </div>
                   </TableCell>
