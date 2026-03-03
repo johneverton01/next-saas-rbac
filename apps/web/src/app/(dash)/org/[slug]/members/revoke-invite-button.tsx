@@ -29,8 +29,8 @@ export function RevokeInviteButton({ inviteId }: RevokeInviteButtonProps) {
         <DialogHeader>
           <DialogTitle>Are you absolutely sure?</DialogTitle>
           <DialogDescription>
-            This action cannot be undone. This will permanently remove the
-            member from your organization.
+            This will revoke the invite and the user will no longer be able to
+            join your organization using this invite.
           </DialogDescription>
         </DialogHeader>
         <DialogFooter>

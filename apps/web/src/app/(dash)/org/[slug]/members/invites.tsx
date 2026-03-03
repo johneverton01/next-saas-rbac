@@ -2,6 +2,7 @@ import { ability, getCurrentOrg } from '@/auth/auth'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table'
 import { getInvites } from '@/http/get-invites'
+import { CreateInviteForm } from './create-invite-form'
 import { RevokeInviteButton } from './revoke-invite-button'
 
 export async function Invites() {
@@ -16,7 +17,9 @@ export async function Invites() {
           <CardHeader>
             <CardTitle>Invite members</CardTitle>
           </CardHeader>
-          <CardContent></CardContent>
+          <CardContent>
+            <CreateInviteForm />
+          </CardContent>
         </Card>
       )}
       <div className="space-y-2">
