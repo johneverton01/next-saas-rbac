@@ -42,10 +42,10 @@ export function getInvites(app: FastifyInstance) {
         },
       },
 
-      async (request, reply) => {
+      async (request) => {
         const { slug } = request.params
 
-        const userId = await request.getCurrentUserUserId()
+        const userId = await request.getCurrentUserId()
         const { organization, membership } =
           await request.getUserMemberships(slug)
 
@@ -56,29 +56,31 @@ export function getInvites(app: FastifyInstance) {
             `You're not allowed to get organization invites.`
           )
         }
-
-        const invites = await prisma.invite.findMany({
-          where: {
-            organizationId: organization.id,
-          },
-          select: {
-            id: true,
-            email: true,
-            role: true,
-            createdAt: true,
-            author: {
-              select: {
-                id: true,
-                name: true,
+        try {
+          const invites = await prisma.invite.findMany({
+            where: {
+              organizationId: organization.id,
+            },
+            select: {
+              id: true,
+              email: true,
+              role: true,
+              createdAt: true,
+              author: {
+                select: {
+                  id: true,
+                  name: true,
+                },
               },
             },
-          },
-          orderBy: {
-            createdAt: 'desc',
-          },
-        })
-
-        return reply.status(200).send({ invites })
+            orderBy: {
+              createdAt: 'desc',
+            },
+          })
+          return { invites }
+        } catch (error) {
+          throw new Error('Failed to get invites', { cause: error })
+        }
       }
     )
 }

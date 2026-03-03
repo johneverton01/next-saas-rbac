@@ -37,7 +37,7 @@ export function createInvite(app: FastifyInstance) {
         const { slug } = request.params
         const { email, role } = request.body
 
-        const userId = await request.getCurrentUserUserId()
+        const userId = await request.getCurrentUserId()
         const { organization, membership } =
           await request.getUserMemberships(slug)
 

@@ -4,7 +4,7 @@ import { Member, Organization } from '@/prisma/client'
 
 declare module 'fastify' {
   export interface FastifyRequest {
-    getCurrentUserUserId(): Promise<string>
+    getCurrentUserId(): Promise<string>
     getUserMemberships(
       slug: string
     ): Promise<{ organization: Organization; membership: Member }>

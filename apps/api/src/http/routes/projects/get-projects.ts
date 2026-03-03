@@ -45,7 +45,7 @@ export function getProjects(app: FastifyInstance) {
       },
       async (request, reply) => {
         const { slug } = request.params
-        const userId = await request.getCurrentUserUserId()
+        const userId = await request.getCurrentUserId()
         const { organization, membership } =
           await request.getUserMemberships(slug)
 

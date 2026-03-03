@@ -24,7 +24,7 @@ export function rejectInvite(app: FastifyInstance) {
         },
       },
       async (request, reply) => {
-        const userId = await request.getCurrentUserUserId()
+        const userId = await request.getCurrentUserId()
         const { inviteId } = request.params
 
         const invite = await prisma.invite.findUnique({

@@ -30,7 +30,7 @@ export function createOrganization(app: FastifyInstance) {
         },
       },
       async (request, reply) => {
-        const userId = await request.getCurrentUserUserId()
+        const userId = await request.getCurrentUserId()
         const { name, domain, shouldAttachUsersByDomain } = request.body
 
         if (domain) {

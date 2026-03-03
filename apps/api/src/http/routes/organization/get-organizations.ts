@@ -32,7 +32,7 @@ export function getOrganizations(app: FastifyInstance) {
         },
       },
       async (request) => {
-        const userId = await request.getCurrentUserUserId()
+        const userId = await request.getCurrentUserId()
 
         const organization = await prisma.organization.findMany({
           select: {
