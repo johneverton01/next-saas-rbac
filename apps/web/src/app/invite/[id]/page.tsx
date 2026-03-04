@@ -4,7 +4,8 @@ import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
 import { getInvite } from '@/http/get-invite'
 import { getRelativeTime } from '@/utils/relativeTime'
-import { CheckCircle, LogIn } from 'lucide-react'
+import { CheckCircle, LogIn, LogOut } from 'lucide-react'
+import Link from 'next/link'
 import { acceptInviteAction, signInFromInvite } from './actions'
 
 interface InvitePageProps {
@@ -68,6 +69,34 @@ export default async function InvitePage({ params }: InvitePageProps) {
               Join {invite.organization?.name ?? 'the organization'}
             </Button>
           </form>
+        )}
+
+        {isUserAuthenticated && !userIsAuthenticatedWithSameEmailFromInvite && (
+          <div className="space-y-4">
+            <p className="text-muted-foreground text-center text-sm leading-relaxed text-balance">
+              This invite was sent to{' '}
+              <span className="text-foreground font-medium">
+                {invite.email}
+              </span>
+              , but you are currently authenticated as{' '}
+              <span className="text-foreground font-medium">
+                {currentUserEmail}
+              </span>
+              .
+            </p>
+            <div className="space-y-2">
+              <Button className="w-full" variant="secondary" asChild>
+                <a href="/api/auth/sign-out">
+                  <LogOut className="size-4" />
+                  Sign out from {currentUserEmail}
+                </a>
+              </Button>
+
+              <Button className="w-full" variant="outline" asChild>
+                <Link href="/">Back to dashboard</Link>
+              </Button>
+            </div>
+          </div>
         )}
       </div>
     </div>
