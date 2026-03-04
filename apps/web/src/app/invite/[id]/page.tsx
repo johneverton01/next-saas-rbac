@@ -1,7 +1,11 @@
+import { auth, isAuthenticated } from '@/auth/auth'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
 import { getInvite } from '@/http/get-invite'
 import { getRelativeTime } from '@/utils/relativeTime'
+import { CheckCircle, LogIn } from 'lucide-react'
+import { acceptInviteAction, signInFromInvite } from './actions'
 
 interface InvitePageProps {
   params: Promise<{
@@ -11,6 +15,18 @@ interface InvitePageProps {
 export default async function InvitePage({ params }: InvitePageProps) {
   const { id } = await params
   const { invite } = await getInvite(id)
+  const isUserAuthenticated = await isAuthenticated()
+
+  let currentUserEmail = null
+
+  if (isUserAuthenticated) {
+    const { user } = await auth()
+    currentUserEmail = user.email
+  }
+
+  const userIsAuthenticatedWithSameEmailFromInvite =
+    currentUserEmail === invite.email
+
   return (
     <div className="flex min-h-screen flex-col items-center justify-center px-4">
       <div className="flex w-full max-w-sm flex-col justify-center space-y-6">
@@ -35,6 +51,24 @@ export default async function InvitePage({ params }: InvitePageProps) {
         </div>
 
         <Separator />
+
+        {!isUserAuthenticated && (
+          <form action={signInFromInvite.bind(null, invite.email, invite.id)}>
+            <Button type="submit" className="w-full" variant="secondary">
+              <LogIn className="size-4" />
+              Sign in to accept the invite
+            </Button>
+          </form>
+        )}
+
+        {userIsAuthenticatedWithSameEmailFromInvite && (
+          <form action={acceptInviteAction.bind(null, invite.id)}>
+            <Button type="submit" className="w-full" variant="secondary">
+              <CheckCircle className="size-4" />
+              Join {invite.organization?.name ?? 'the organization'}
+            </Button>
+          </form>
+        )}
       </div>
     </div>
   )

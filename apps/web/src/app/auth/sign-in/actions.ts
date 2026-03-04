@@ -1,8 +1,10 @@
 'use server'
 
+import { acceptInvite } from '@/http/accept-invite'
 import { signInWithEmailPassword } from '@/http/sign-in-with-password'
 import { setToken } from '@/utils/token'
 import { HTTPError } from 'ky'
+import { cookies } from 'next/headers'
 import { z } from 'zod'
 
 const signInSchema = z.object({
@@ -34,6 +36,16 @@ export async function signInWithEmailAndPassword(data: FormData) {
     })
 
     await setToken(token)
+
+    const cookieStore = await cookies()
+    const inviteId = cookieStore.get('inviteId')?.value
+
+    if (inviteId) {
+      try {
+        await acceptInvite(inviteId)
+        cookieStore.delete('inviteId')
+      } catch {}
+    }
   } catch (error) {
     if (error instanceof HTTPError) {
       const { message } = await error.response.json()
